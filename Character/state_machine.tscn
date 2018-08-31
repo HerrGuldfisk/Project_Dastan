@@ -1,0 +1,143 @@
+[gd_scene load_steps=22 format=2]
+
+[ext_resource path="res://Character/state_machine_script.gd" type="Script" id=1]
+[ext_resource path="res://Art/placeholder/idle/top_view0.png" type="Texture" id=2]
+[ext_resource path="res://Art/placeholder/idle/top_view1.png" type="Texture" id=3]
+[ext_resource path="res://Art/placeholder/walk_down/v_walk_down0.png" type="Texture" id=4]
+[ext_resource path="res://Art/placeholder/walk_down/v_walk_down1.png" type="Texture" id=5]
+[ext_resource path="res://Art/placeholder/walk_up/walk_up0.png" type="Texture" id=6]
+[ext_resource path="res://Art/placeholder/walk_up/walk_up1.png" type="Texture" id=7]
+[ext_resource path="res://Art/placeholder/walk_side/walk_h0.png" type="Texture" id=8]
+[ext_resource path="res://Art/placeholder/walk_side/walk_h1.png" type="Texture" id=9]
+[ext_resource path="res://Art/placeholder/sneak_down/walk_down_sneak0.png" type="Texture" id=10]
+[ext_resource path="res://Art/placeholder/sneak_down/walk_down_sneak1.png" type="Texture" id=11]
+[ext_resource path="res://Art/placeholder/sneak_side/walk_h_sneak0.png" type="Texture" id=12]
+[ext_resource path="res://Art/placeholder/sneak_side/walk_h_sneak1.png" type="Texture" id=13]
+[ext_resource path="res://Character/animations/hats/Straw_hat_script.tscn" type="PackedScene" id=14]
+[ext_resource path="res://Character/states/states_script.gd" type="Script" id=15]
+[ext_resource path="res://Character/states/motion/on_ground/idle_script.gd" type="Script" id=16]
+[ext_resource path="res://Character/states/motion/on_ground/walk_script.gd" type="Script" id=17]
+[ext_resource path="res://Character/states/motion/on_ground/run_script.gd" type="Script" id=18]
+[ext_resource path="res://Character/states/motion/on_ground/sneak_script.gd" type="Script" id=19]
+
+[sub_resource type="RectangleShape2D" id=1]
+
+custom_solver_bias = 0.0
+extents = Vector2( 14, 6 )
+
+[sub_resource type="SpriteFrames" id=2]
+
+animations = [ {
+"frames": [ ExtResource( 2 ), ExtResource( 3 ) ],
+"loop": true,
+"name": "idle",
+"speed": 2.0
+}, {
+"frames": [ ExtResource( 4 ), ExtResource( 5 ) ],
+"loop": true,
+"name": "walk_down",
+"speed": 3.0
+}, {
+"frames": [ ExtResource( 6 ), ExtResource( 7 ) ],
+"loop": true,
+"name": "walk_up",
+"speed": 3.0
+}, {
+"frames": [ ExtResource( 4 ), ExtResource( 5 ) ],
+"loop": true,
+"name": "run_down",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 8 ), ExtResource( 9 ) ],
+"loop": true,
+"name": "run_side",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 10 ), ExtResource( 11 ) ],
+"loop": true,
+"name": "sneak_down",
+"speed": 2.0
+}, {
+"frames": [ ExtResource( 12 ), ExtResource( 13 ) ],
+"loop": true,
+"name": "sneak_side",
+"speed": 3.0
+}, {
+"frames": [ ExtResource( 8 ), ExtResource( 9 ) ],
+"loop": true,
+"name": "walk_side",
+"speed": 4.0
+}, {
+"frames": [ ExtResource( 6 ), ExtResource( 7 ) ],
+"loop": true,
+"name": "run_up",
+"speed": 5.0
+} ]
+
+[node name="state_machine" type="KinematicBody2D"]
+
+input_pickable = false
+collision_layer = 1
+collision_mask = 1
+collision/safe_margin = 0.08
+script = ExtResource( 1 )
+sneak = false
+run = false
+
+[node name="CS" type="CollisionShape2D" parent="." index="0"]
+
+shape = SubResource( 1 )
+_sections_unfolded = [ "Transform" ]
+
+[node name="Sprite" type="AnimatedSprite" parent="CS" index="0"]
+
+position = Vector2( 0, -28 )
+frames = SubResource( 2 )
+animation = "walk_side"
+_sections_unfolded = [ "Transform" ]
+
+[node name="Position" parent="CS" index="1" instance=ExtResource( 14 )]
+
+position = Vector2( 0, -50 )
+
+[node name="states" type="Node" parent="." index="1"]
+
+script = ExtResource( 15 )
+
+[node name="idle" type="Node" parent="states" index="0"]
+
+script = ExtResource( 16 )
+sneak = false
+run = false
+walk_speed = 150
+speed = 0.0
+velocity = Vector2( 0, 0 )
+
+[node name="walk" type="Node" parent="states" index="1"]
+
+script = ExtResource( 17 )
+sneak = false
+run = false
+walk_speed = 150
+speed = 0.0
+velocity = Vector2( 0, 0 )
+
+[node name="run" type="Node" parent="states" index="2"]
+
+script = ExtResource( 18 )
+sneak = false
+run = false
+walk_speed = 150
+speed = 0.0
+velocity = Vector2( 0, 0 )
+
+[node name="sneak" type="Node" parent="states" index="3"]
+
+script = ExtResource( 19 )
+sneak = false
+run = false
+walk_speed = 150
+speed = 0.0
+velocity = Vector2( 0, 0 )
+
+
